@@ -29,7 +29,9 @@ window.console.error = (error) => {
 
 /** Post message back to main application */
 function postMessage(type, log) {
-  context.source.postMessage({
-    type, body: JSON.stringify(log)
-  }, context.origin);
+  if (context) {
+    context.source.postMessage({
+      type, body: JSON.stringify(log)
+    }, context.origin);
+  }
 }
