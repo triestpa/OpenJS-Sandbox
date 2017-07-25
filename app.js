@@ -19,7 +19,10 @@ hello()`
 /** Handler for when the DOM is fully loaded */
 document.addEventListener("DOMContentLoaded", function(){
   //setupMonacoEditor()
-  setupAceEditor()
+  //setupAceEditor()
+
+  // params = new URLSearchParams(window.location.search)
+  // console.log(params.get('editor'))
 
   /** Listen for messages from the sandboxed iframe */
   window.addEventListener('message', (e) => {
@@ -83,7 +86,6 @@ function clearChilden(id) {
 
 /** Add a log message to the DOM */
 function addLog (log) {
-  console.log(log)
   const pre = document.createElement('pre')
   pre.appendChild(document.createTextNode(log.message))
 
@@ -122,33 +124,97 @@ function onEditorChangeListener(editor) {
   return onEditorChange
 }
 
+
+/** Abstract editor class */
+class Editor {
+  constructor () { }
+
+  /** Download the editor dependency */
+  async loadDependency () {
+    return importScript(this.dependency)
+  }
+
+  // Abstract methods to be overriden in subclasses
+  loadEditor (elementId, initialValue) { }
+  getValue () { }
+  setOnChangeListener (listener) { }
+
+}
+
+class MonacoEditor extends Editor {
+  constructor () {
+    super()
+    this.dependency = 'vs/loader.js'
+  }
+
+  async loadEditor(elementId, initialValue) {
+    await this.loadDependency()
+    this.editor = await new Promise((resolve, reject) => {
+      require.config({ paths: { 'vs': 'vs' }});
+      require(['vs/editor/editor.main'], () => {
+        let editor = monaco.editor.create(document.getElementById('editor'), {
+          value: initialValue,
+          language: 'javascript',
+          theme: 'vs-dark',
+          fontSize: '14px',
+        });
+        resolve(editor)
+      })
+    })
+  }
+
+  setOnChangeListener(listener) {
+    console.log('editor', this.editor)
+    this.editor.onDidChangeModelContent(listener)
+  }
+
+  getValue() {
+    return this.editor.getValue()
+  }
+}
+
+class AceEditor extends Editor {
+  constructor () {
+    super()
+    this.dependency = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js'
+  }
+
+  async loadEditor(elementId, initialValue) {
+    await this.loadDependency()
+    this.editor = ace.edit('editor')
+    this.editor.setOptions({
+      fontSize: '14px',
+      theme: 'ace/theme/monokai',
+      mode: 'ace/mode/javascript'
+    })
+
+    this.editor.getSession().setValue(initialValue)
+  }
+
+  setOnChangeListener(listener) {
+    this.editor.getSession().on('change', listener)
+  }
+
+  getValue() {
+    return this.editor.getValue()
+  }
+}
+
 /** Setup Monaco Editor */
 async function setupMonacoEditor () {
-  await importScript('vs/loader.js')
-  require.config({ paths: { 'vs': 'vs' }});
-  require(['vs/editor/editor.main'], function() {
-    let editor = monaco.editor.create(document.getElementById('editor'), {
-      value: initialValue,
-      language: 'javascript',
-      theme: 'vs-dark',
-      fontSize: '14px',
-    });
-
-    editor.onDidChangeModelContent(onEditorChangeListener(editor))
-  });
+  const editor = new MonacoEditor()
+  await editor.loadEditor('editor', initialValue)
+  editor.setOnChangeListener(onEditorChangeListener(editor))
 }
 
 /** Setup ACE editor  */
 async function setupAceEditor () {
-  await importScript('https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js')
-  let editor = ace.edit('editor')
-  editor.setOptions({
-    fontSize: '14px',
-    theme: 'ace/theme/monokai',
-    mode: 'ace/mode/javascript',
-    value: initialValue
-  })
+  const editor = new AceEditor()
+  await editor.loadEditor('editor', initialValue)
+  editor.setOnChangeListener(onEditorChangeListener(editor))
+}
 
-  editor.getSession().setValue(initialValue)
-  editor.getSession().on('change', onEditorChangeListener(editor))
+function saveAsFile () {
+  const blob = new Blob([text], {type: "text/javascript;charset=utf-8"});
+  saveAs(blob, filename+".js");
 }
