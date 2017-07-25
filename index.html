@@ -10,12 +10,18 @@
 <body>
   <div class="code-playground">
     <div class="code">
-       <div id="editor"></div>
+        <input type="button" value="Use Monaco" onclick="setupMonacoEditor()">
+        <input type="button" value="Use Ace" onclick="setupAceEditor()">
+        <div id="editor"></div>
     </div>
     <div class="info">
       <h2>Console Output</h2>
       <div id="log-list"></div>
     </div>
+      <div clas="menu">
+        <div>option 1</div>
+        <div>option 2</div>
+      </div>
   </div>
   <script src="app.js"></script>
 </body>
