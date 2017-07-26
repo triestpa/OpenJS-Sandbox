@@ -15,7 +15,7 @@ window.addEventListener('message', function (e) {
   } catch (err) {
     postMessage('error', { message: err.message })
   }
-});
+})
 
 /** Override default console.log */
 window.console.log = (message, body) => {

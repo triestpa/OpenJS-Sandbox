@@ -11,20 +11,21 @@ const PRECACHE_URLS = [ 'index.html', 'app.js', 'styles.css' ]
 /** Precache resouces on SW install  */
 self.addEventListener('install', function (event) {
   event.waitUntil(preCache().then(() => self.skipWaiting()))
-});
+})
 
 /** Claim client on SW activate */
 self.addEventListener('activate', function(event) {
   event.waitUntil(self.clients.claim());
-});
+})
 
 /** Handle resource fetch */
 self.addEventListener('fetch', function (event) {
   const url = new URL(event.request.url);
   if (url.origin == event.target.location.origin) {
-    // Handle origin(same-domain) requests with custom logic
+    // Handle origin(same-domain) requests with custom caching logic
     event.respondWith(handleRequest(event.request))
-  } else { // Fetch non-origin resources normally
+  } else {
+    // Fetch cross-origin resources normally. When offline, these will fallback to the browser cache.
     event.respondWith(fetch(event.request))
   }
 })
