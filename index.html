@@ -5,24 +5,47 @@
   <title>JS Sandbox</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-  <div class="code-playground">
-    <div class="code">
-        <input type="button" value="Use Monaco" onclick="setupMonacoEditor()">
-        <input type="button" value="Use Ace" onclick="setupAceEditor()">
-        <div id="editor"></div>
+  <div id="code-playground" class="output-hidden">
+    <div id="side-menu">
+      <div id="run-button" onclick="runCode()"><i class="material-icons">play_arrow</i></div>
+      <div id="stop-button" onclick="stopCode()"><i class="material-icons">stop</i></div>
+      <div id="save-button" onclick="saveAsFile()"><i class="material-icons">file_download</i></div>
+      <div id="info-button"><a href="https://blog.patricktriest.com" target="_blank" rel="noopener"><i class="material-icons">info</i></a></div>
+      <div id="hide-button" onclick="toggleOutputVisibility()">
+        <i class="material-icons hide-icon">visibility</i>
+        <i class="material-icons show-icon hidden">visibility_off</i>
+      </div>
     </div>
-    <div class="info">
+    <div id="code-panel">
+      <div id="editor"></div>
+      <div id="select-editor">
+        <h2>Select Code Editor</h2>
+        <div id="select-monaco">
+          <h3>Monaco</h3>
+          <p>The editor that powers <strong>Visual Studio Code</strong>.</p>
+          <p>Larger (1.4mb)</p>
+          <p>Advanced Feature Set</p>
+          <input type="button" value="Use Monaco" onclick="setupMonacoEditor()">
+        </div>
+        <div id="select-monaco">
+          <h3>Ace</h3>
+          <p>Used by Cloud9, Khan Academy, Plunker, and more.</p>
+          <p>Lightweight (120kb), Mobile Friendly</p>
+          <p>Basic Feature Set</p>
+          <input type="button" value="Use Ace" onclick="setupAceEditor()">
+        </div>
+      </div>
+    </div>
+    <div id="info-panel">
       <h2>Console Output</h2>
       <div id="log-list"></div>
     </div>
-      <div clas="menu">
-        <div>option 1</div>
-        <div>option 2</div>
-      </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async></script>
   <script src="app.js"></script>
 </body>
 
