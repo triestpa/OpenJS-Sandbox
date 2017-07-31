@@ -81,7 +81,6 @@ class Editor {
   /** Download the editor dependencies */
   async loadDependencies () {
     for (let dependency of this.dependencies) {
-      console.log('loading' + dependency)
       await this.importScript(dependency)
     }
   }
@@ -138,7 +137,7 @@ class MonacoEditor extends Editor {
       }
 
       // "require" is from the Monaco "loader.js" script.
-      // Using it here doesn't require any special build systems of bundling libraries.
+      // Using it here doesn't require any special build systems or bundling libraries.
       require(['vs/editor/editor.main'], () => {
         let editor = monaco.editor.create(document.getElementById('editor'), {
           value: initialValue,
@@ -157,7 +156,7 @@ class MonacoEditor extends Editor {
     })
   }
 
-  /** Help function to delay resize  */
+  /** Helper function to delay resize */
   debounce(func, wait) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(func, wait)
@@ -186,7 +185,7 @@ class AceEditor extends Editor {
 
   async loadEditor(elementId, initialValue) {
     await super.loadEditor(elementId, initialValue)
-    this.editor = ace.edit('editor')
+    this.editor = ace.edit(elementId)
     this.editor.setOptions({
       fontSize: '14px',
       theme: 'ace/theme/tomorrow_night_eighties',
@@ -233,10 +232,10 @@ class LogList {
   /** Add a log message to the DOM */
   addLog (log) {
     const pre = document.createElement('pre')
-    pre.appendChild(document.createTextNode(log.message))
+    pre.appendChild(document.createTextNode(JSON.stringify(log.message, null, 2)))
 
     if (log.body) {
-        pre.appendChild(document.createTextNode(`\n${JSON.stringify(log.body)}`))
+        pre.appendChild(document.createTextNode(`\n${JSON.stringify(log.body, null, 2)}`))
     }
 
     this.logList.appendChild(pre)
@@ -293,11 +292,20 @@ async function setupAceEditor () {
 
 /** Initialize the selected editor */
 async function initializeEditor () {
-  document.getElementById('select-editor').style.display = 'none';
+  document.getElementById('code-panel').classList.add('select-editor-hidden');
+  // document.getElementById('select-editor').style.display = 'none';
   await app.editor.loadEditor('editor', initialValue)
   // app.editor.setOnChangeListener((change) => runCode())
+
+  document.getElementById('editor').onkeypress = function(event) {
+    if (event.keyCode == 13 && event.shiftKey) {
+      runCode()
+      return false;
+    }
+  }
 }
 
+/** Toggle the console output panel */
 function toggleOutputVisibility () {
   document.getElementById('code-playground').classList.toggle('output-hidden');
   window.dispatchEvent(new Event('resize'));
