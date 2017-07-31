@@ -12,13 +12,7 @@ html, body {
   flex-direction: row;
   flex-wrap: nowrap;
   width: 100%;
-}
-
-#select-editor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
+  overflow: scroll;
 }
 
 #log-list {
@@ -29,7 +23,7 @@ html, body {
 #code-panel {
   display: block;
   position: relative;
-  flex: 1 2 70%;
+  flex: 3 1;
   overflow: hidden;
 }
 
@@ -43,9 +37,10 @@ html, body {
   max-height: 100vh;
   overflow: scroll;
   min-width: 300px;
-  flex: 1 1 30%;
+  flex: 1 1;
   background: #333;
   color: white;
+  text-align: center;
 }
 
 .output-hidden #info-panel {
@@ -66,7 +61,8 @@ html, body {
 #side-menu {
   display: flex;
   flex-flow: column;
-  background: #333
+  background: #333;
+  overflow-y: scroll;
 }
 
 .output-hidden .hide-icon {
@@ -81,10 +77,121 @@ html, body {
   color: white;
   font-size: 36px;
   cursor: pointer;
+  padding: 18px 12px;
 }
 
-#side-menu > div {
+#side-menu i:hover {
+  background: #222;
+}
+
+.menu-items > div {
   user-select: none;
-  margin: 18px 12px;
   cursor: pointer;
+}
+
+.console-output-label {
+  margin: 0;
+  padding: 24px;
+  background: #222;
+  text-transform: uppercase;
+}
+
+
+#select-editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#select-editor > h1 {
+  text-transform: uppercase;
+  letter-spacing: 0.8rem;
+}
+
+
+.editor-helper-text {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 12px;
+  font-size: 12px;
+}
+
+.select-editor-hidden .editor-helper-text {
+  display: block;
+}
+
+
+.select-editor-hidden #select-editor {
+  display: none;
+}
+
+#select-editor > h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+.editor-selection {
+  position: relative;
+  cursor: pointer;
+  flex: 1 1 48%;
+  display: flex;
+  align-content: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.editor-selection:hover {
+  background: #333;
+}
+
+.editor-selection h1 {
+  margin: 12px auto;
+  text-transform: uppercase;
+  letter-spacing: 1rem;
+}
+
+.editor-details {
+  position: absolute;
+  display: none;
+  background: #111;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  align-self: center;
+}
+
+.editor-details ul {
+  text-align: left;
+  margin: 0 auto;
+}
+
+.editor-details h1 {
+  letter-spacing: 1rem;
+  text-transform: uppercase;
+}
+
+.editor-details p {
+  margin: 6px auto;
+}
+
+.editor-selection:hover .editor-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
 }
