@@ -1,8 +1,8 @@
 /**
-  * Sandbox iframe script
-  * We run the user-inputted code by contructing a function.
+  * Sandbox iframe script - Runs inside the dynamically generated iframe.
+  * Runs the user-inputted code by contructing a function.
   * This is a better practice than using eval(), but is still very insecure.
-  * Don't do this in your main app, only use this technique in sandboxed iframes.
+  * Don't do this in your main app script, only use this technique in sandboxed iframes.
  */
 
 var context = null // Store current message context in iframe window scope
