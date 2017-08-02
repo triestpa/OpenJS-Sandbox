@@ -253,7 +253,18 @@ if (navigator.serviceWorker) {
 
 // Show basic "hello world" code by default
 const initialValue =
-`function hello () {
+`
+/**
+ *  Welcome to OpenJS Sandbox!
+ *  You can add your code experiments bellow.
+ *  The code will execute in a sandboxed iframe within your browser,
+ *  so watch out for infinate loops.
+ *
+ *  To contribute, report bugs, or request features, visit the
+ *  Github repository - https://github.com/triestpa/OpenJS-Sandbox
+ */
+
+function hello () {
   console.log("Hello world!");
 }
 
