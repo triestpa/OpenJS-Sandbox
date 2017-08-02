@@ -1,0 +1,1 @@
+gsutil rsync -d -r ./public gs://code.patricktriest.com
