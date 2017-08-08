@@ -28,10 +28,10 @@
         <h1>Javascript Playground</h1>
         <h2>Select Code Editor</h2>
         <div class="editor-selection" id="select-monaco" onclick="setupMonacoEditor()">
-          <h1>Monaco</h1>
+           <h1>Monaco</h1>
           <div class="editor-details">
             <h1>Monaco</h1>
-            <ul>
+            <ul class="editor-details-list">
               <li>The editor that powers <strong>Visual Studio Code</strong>.</li>
               <li>The most advanced open-source browser-based editor.</li>
               <li>Recomended for advanced experiments.</li>
@@ -40,10 +40,10 @@
           </div>
         </div>
         <div class="editor-selection" id="select-ace" onclick="setupAceEditor()">
-          <h1>Ace</h1>
+           <h1>Ace</h1>
           <div class="editor-details">
             <h1>Ace</h1>
-            <ul>
+            <ul class="editor-details-list">
               <li>Used by <strong>Cloud9, Khan Academy, Plunker</strong>, and more.</li>
               <li>Strong feature set, including syntax highlighting and code folding.</li>
               <li>Recomended for basic experiments.</li>
@@ -52,6 +52,7 @@
           </div>
         </div>
       </div>
+      <div id="loader" class="hidden"></div>
       <div class="editor-helper-text">shift+enter to run code.</div>
     </div>
     <div id="info-panel">
