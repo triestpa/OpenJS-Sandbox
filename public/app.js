@@ -246,6 +246,7 @@ class LogList {
   App Controller
 **********************/
 
+
 /** Register service worker if compatable with current browser */
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('sw.js').catch(console.error);
@@ -280,6 +281,16 @@ const app = {
   sandbox: new Sandbox('sandbox')
 }
 
+/* Read the URL editor param and load the editor if specified **/
+switch (getParameterByName('editor')) {
+  case 'monaco':
+    setupMonacoEditor()
+    break
+  case 'ace':
+    setupAceEditor()
+    break
+}
+
 /** Display the received log in the UI */
 function handleLogMessage (log) {
   if (log.body) {
@@ -295,22 +306,22 @@ function handleLogMessage (log) {
 /** Setup Monaco Editor */
 async function setupMonacoEditor () {
   app.editor = new MonacoEditor()
-  initializeEditor()
+  await initializeEditor()
 }
 
 /** Setup ACE editor  */
 async function setupAceEditor () {
   app.editor = new AceEditor()
-  initializeEditor()
+  await initializeEditor()
+
 }
 
 /** Initialize the selected editor */
 async function initializeEditor () {
   document.getElementById('code-panel').classList.add('select-editor-hidden');
-  // document.getElementById('select-editor').style.display = 'none';
+  document.getElementById('loader').classList.toggle('hidden');
   await app.editor.loadEditor('editor', initialValue)
-  // app.editor.setOnChangeListener((change) => runCode())
-
+  document.getElementById('loader').classList.toggle('hidden');
   document.getElementById('editor').onkeypress = function(event) {
     if (event.keyCode == 13 && event.shiftKey) {
       runCode()
@@ -345,4 +356,15 @@ async function runCode () {
 /** Stop the code by destroying the sandbox */
 function stopCode () {
   app.sandbox.stop()
+}
+
+/** Get URL parameter. From https://stackoverflow.com/a/901144 */
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
