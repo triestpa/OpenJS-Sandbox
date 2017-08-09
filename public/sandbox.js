@@ -6,10 +6,12 @@
  */
 
 var context = null // Store current message context in iframe window scope
+var startTime = null
 
 /** Listen for messages and run received code */
 window.addEventListener('message', function (e) {
   context = e
+  startTime = new Date()
   try {
     new Function(e.data)() // Construct and run function from message content
   } catch (err) {
@@ -30,6 +32,7 @@ window.console.error = (error) => {
 /** Post message back to main application */
 function postMessage(type, log) {
   if (context) {
+    log.timestamp = new Date().getTime() - startTime.getTime()
     context.source.postMessage({
       type, body: JSON.stringify(log)
     }, context.origin);
