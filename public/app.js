@@ -144,6 +144,7 @@ class MonacoEditor extends Editor {
           language: 'javascript',
           theme: 'vs-dark',
           fontSize: '14px',
+          tabSize: 2,
         })
 
         resolve(editor)
@@ -191,6 +192,7 @@ class AceEditor extends Editor {
       theme: 'ace/theme/tomorrow_night_eighties',
       mode: 'ace/mode/javascript',
       showPrintMargin: false,
+      tabSize: 2,
       // enableBasicAutocompletion: true,
       // enableSnippets: true,
       // enableLiveAutocompletion: true,
@@ -231,14 +233,19 @@ class LogList {
 
   /** Add a log message to the DOM */
   addLog (log) {
-    const pre = document.createElement('pre')
-    pre.appendChild(document.createTextNode(JSON.stringify(log.message, null, 2)))
+    let html = `
+      <div class="log-item">
+      <h3 class="log-timestamp">${log.timestamp} ms</h3>
+      <div class="log-content">
+        <pre class="log-message">${JSON.stringify(log.message, null, 2)}</pre>`
 
     if (log.body) {
-        pre.appendChild(document.createTextNode(`\n${JSON.stringify(log.body, null, 2)}`))
+      html += `<pre class="log-body">${JSON.stringify(log.body, null, 2)}</pre>`
     }
 
-    this.logList.appendChild(pre)
+    html += `</div></div>`
+
+    this.logList.innerHTML += html
   }
 }
 
@@ -322,10 +329,16 @@ async function initializeEditor () {
   document.getElementById('loader').classList.toggle('hidden');
   await app.editor.loadEditor('editor', initialValue)
   document.getElementById('loader').classList.toggle('hidden');
-  document.getElementById('editor').onkeypress = function(event) {
-    if (event.keyCode == 13 && event.shiftKey) {
+  document.getElementById('editor').onkeydown = function(event) {
+    console.log(event)
+    if (event.key == 'Enter' && event.shiftKey) {
+      // Run code on shift+enter
       runCode()
       return false;
+    } else if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+      // Save file on ctrl/cmd + s
+      event.preventDefault();
+      saveAsFile()
     }
   }
 }
@@ -368,3 +381,5 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+
