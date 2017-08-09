@@ -5,7 +5,7 @@
  * Refreshes cached files on each page load when online.
 */
 
-const CACHE = 'v1'
+const CACHE = 'v1.1'
 const PRECACHE_URLS = [ 'index.html', 'app.js', 'styles.css' ]
 
 /** Precache resouces on SW install  */

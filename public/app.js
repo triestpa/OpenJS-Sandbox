@@ -330,7 +330,6 @@ async function initializeEditor () {
   await app.editor.loadEditor('editor', initialValue)
   document.getElementById('loader').classList.toggle('hidden');
   document.getElementById('editor').onkeydown = function(event) {
-    console.log(event)
     if (event.key == 'Enter' && event.shiftKey) {
       // Run code on shift+enter
       runCode()
