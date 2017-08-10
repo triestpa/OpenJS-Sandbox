@@ -25,8 +25,8 @@ window.console.log = (message, body) => {
 }
 
 /** Override default console.error */
-window.console.error = (error) => {
-  postMessage('error', { message: error.message })
+window.console.error = (message, body) => {
+  postMessage('error', { message, body })
 }
 
 /** Post message back to main application */

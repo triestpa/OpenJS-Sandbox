@@ -232,12 +232,19 @@ class LogList {
   }
 
   /** Add a log message to the DOM */
-  addLog (log) {
-    let html = `
-      <div class="log-item">
-      <h3 class="log-timestamp">${log.timestamp} ms</h3>
-      <div class="log-content">
-        <pre class="log-message">${JSON.stringify(log.message, null, 2)}</pre>`
+  addLog (log, logtype) {
+    let html = `<div class="log-item">`
+
+    if (logtype === 'error') {
+      html += `<h3 class="log-label log-label-error">ERROR</h3>`
+    } else {
+      html += `<h3 class="log-label">LOG</h3>`
+    }
+
+    html += `<h3 class="log-timestamp">${log.timestamp} ms</h3>`
+
+    html += `<div class="log-content">
+      <pre class="log-message">${JSON.stringify(log.message, null, 2)}</pre>`
 
     if (log.body) {
       html += `<pre class="log-body">${JSON.stringify(log.body, null, 2)}</pre>`
@@ -302,11 +309,7 @@ switch (getParameterByName('editor')) {
 function handleLogMessage (log) {
   if (log.body) {
     let logBody = JSON.parse(log.body)
-    if (log.type === 'log') {
-      app.logList.addLog(logBody)
-    } else {
-      app.logList.addLog(logBody)
-    }
+    app.logList.addLog(logBody, log.type)
   }
 }
 
