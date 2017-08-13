@@ -12,4 +12,7 @@ On opening the sandbox, two editor options are presented: [Monaco](https://githu
 
 
 ## Offline
-This web app is also configured as Progressive Web App (PWA), so on compatible browsers(i.e. not Safari) it will work completely offline.
+This web app is also configured as Progressive Web App (PWA), so on compatible browsers (i.e. not Safari) it will work completely offline.
+
+## Embed
+This web app can also be easily embedded in any other page using an iframe, to provide a live JS sandbox anywhere.  For an example, see here - https://blog.patricktriest.com/what-is-async-await-why-should-you-care/
