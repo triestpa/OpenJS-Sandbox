@@ -2,7 +2,7 @@
 
 Welcome to Open JS Sandbox, an open-source in-browser Javascript code-runner.
 
-A live version of the sandbox is here - [https://code.patricktriest.com]()
+A live version of the sandbox is here - https://code.patricktriest.com
 
 ## Sandboxed iframe execution
 This web app is completely self-contained, it requires no server component or API to function.  It runs the code within a sandboxed iframe, intercepts console log statements, and sends those logs to the main app.  Note that the code runs within the browser, so watch out for infinite loops, which will freeze the browser tab.
