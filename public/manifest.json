@@ -1,0 +1,25 @@
+{
+  "short_name": "OpenJS Sandbox",
+  "name": "OpenJS Sandbox",
+  "icons": [
+    {
+      "src": "icons/logo-w64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "icons/logo-w96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "icons/logo-w192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "index.html",
+  "background_color": "#222",
+  "theme_color": "#222",
+  "display": "standalone"
+}
