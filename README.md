@@ -13,8 +13,8 @@ This web app is completely self-contained, it requires no server component or AP
 On opening the sandbox, two editor options are presented: [Monaco](https://github.com/Microsoft/monaco-editor) and [Ace](https://github.com/ajaxorg/ace).  The resources for the chosen editor will be download once it is selected.  Both editors are open-source, and very high quality.  Ace is more lightweight(120kb), whereas Monaco(the same editor as used in VSCode) is heavier (1.4mb) and more feature rich.
 
 
-## Offline-First
+## Offline First
 This web app is also configured as Progressive Web App (PWA), so on compatible browsers (i.e. not Safari) it will work completely offline.
 
 ## Embeddable
-This web app can be easily embedded in any other page using an iframe, to provide a live JS sandbox with any webpage.  For an example, see here - https://blog.patricktriest.com/what-is-async-await-why-should-you-care/
+This web app can be easily embedded in any other page using an iframe, to provide a live JS sandbox within any webpage.  For an example, see here - https://blog.patricktriest.com/what-is-async-await-why-should-you-care/
